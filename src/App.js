@@ -1,34 +1,100 @@
 import React from 'react'
 import "./App.css";
+import Header from './components/Header'
+import Main from './components/Main'
+import Footer from './components/Footer'
 
-function App() {
+  class App extends React.Component {
+    constructor(props) {
+      super(props)
+      this.state = {
+        isArticleVisible: false,
+        timeout: false,
+        articleTimeout: false,
+        article: '',
+      }
+      this.handleOpenArticle = this.handleOpenArticle.bind(this)
+      this.handleCloseArticle = this.handleCloseArticle.bind(this)
+      this.setWrapperRef = this.setWrapperRef.bind(this)
+      this.handleClickOutside = this.handleClickOutside.bind(this)
+    }
+  
+    componentDidMount() {
+      document.addEventListener('mousedown', this.handleClickOutside)
+    }
+  
+    componentWillUnmount() {
+      document.removeEventListener('mousedown', this.handleClickOutside)
+    }
+  
+    setWrapperRef(node) {
+      this.wrapperRef = node
+    }
+  
+    handleOpenArticle(article) {
+      this.setState({
+        isArticleVisible: !this.state.isArticleVisible,
+        article,
+      })
+  
+      setTimeout(() => {
+        this.setState({
+          timeout: !this.state.timeout,
+        })
+      }, 325)
+  
+      setTimeout(() => {
+        this.setState({
+          articleTimeout: !this.state.articleTimeout,
+        })
+      }, 350)
+    }
+  
+    handleCloseArticle() {
+      this.setState({
+        articleTimeout: !this.state.articleTimeout,
+      })
+  
+      setTimeout(() => {
+        this.setState({
+          timeout: !this.state.timeout,
+        })
+      }, 325)
+  
+      setTimeout(() => {
+        this.setState({
+          isArticleVisible: !this.state.isArticleVisible,
+          article: '',
+        })
+      }, 350)
+    }
+  
+    handleClickOutside(event) {
+      if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+        if (this.state.isArticleVisible) {
+          this.handleCloseArticle()
+        }
+      }
+    }
+  
+    render() {
   return (
-    <>
+    <div className={`body ${this.state.isArticleVisible ? 'is-article-visible' :''}`}>
     <div className="App">
-      <header className="header">
-        <div className="logo">
-          <span className=""></span>
-        </div>
-        <div className="content">
-          <div className="inner">
-              <h1>Dimension</h1>
-              <p>A fully responsive site template designed by <a href="https://html5up.net">HTML5 UP</a> and released<br/>
-						for free under the <a href="https://html5up.net/license">Creative Commons</a> license.</p>
-        </div>
-        </div>
-        <nav className="use-middle">
-							<ul>
-								<li><a href="#intro">Intro</a></li>
-								<li><a href="#work">Work</a></li>
-								<li className="is-middle"><a href="#about">About</a></li>
-								<li><a href="#contact">Contact</a></li>
-							</ul>
-						</nav>
-      </header>
+      <Header onOpenArticle = {this.handleOpenArticle} timeout={this.state.timeout}/>
+      <Main 
+      onOpenArticle  = {this.handleOpenArticle} 
+      timeout={this.state.timeout} 
+      articleTimeout ={this.state.articleTimeout}
+      article = {this.state.article}
+      onCloseArticle = {this.handleCloseArticle}
+      setWrapperRef = {this.setWrapperRef}
+      />
+      <Footer timeout={this.state.timeout}/>
     </div>
     <div className="bg"></div>
-    </>
+    </div>
   );
 }
-
+}
 export default App;
