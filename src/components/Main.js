@@ -1,11 +1,71 @@
-import React from 'react'
+
+import React,{useState} from 'react';
+import { useToasts } from "react-toast-notifications";
+import ReactGA from "react-ga";
 import pic01 from '../images/pic01.jpg';
 import pic02 from '../images/pic02.jpg';
 import pic03 from '../images/pic03.jpg';
 
-
+const encode = (data) => {
+	return Object.keys(data)
+		.map((key) => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
+		.join("&");
+};
 
 const Main = (props) => {
+  const [loading, setLoading] = useState(false);
+	const [formData, setFormData] = useState({
+		name: "",
+		email: "",
+		message: "",
+	});
+	const { addToast } = useToasts();
+  
+  const onChange = (e) => {
+		setFormData({ ...formData, [e.target.name]: e.target.value });
+	};
+
+  const onSubmit = async (e) => {
+		e.preventDefault();
+		setLoading(true);
+		ReactGA.event({
+			category: "Contact Form",
+			action: "Submit",
+		});
+		try {
+			const res = await fetch("/", {
+				method: "POST",
+				headers: { "Content-Type": "application/x-www-form-urlencoded" },
+				body: encode({ "form-name": "contact", ...formData }),
+			});
+
+			if (!res.ok) {
+				await res.text().then((text) => {
+					throw Error(text);
+				});
+			}
+			addToast(
+				"Your message was sent successfully. I'll get back to you shortly.",
+				{
+					appearance: "success",
+					autoDismiss: true,
+				}
+			);
+			setFormData({
+				name: "",
+				email: "",
+				message: "",
+			});
+		} catch (err) {
+			addToast("Something went wrong while sending your message.", {
+				appearance: "error",
+				autoDismiss: true,
+			});
+			console.error(err);
+		}
+		setLoading(false);
+	};
+
   let close =  (
     <div role="button" className="close"
     onClick={() => props.onCloseArticle()}
@@ -42,23 +102,26 @@ return(
                             <article id="contact" className ={`${props.article ==='contact' ? 'active' : ''} ${props.articleTimeout?'timeout' : ''}`}
                             style ={{display: 'none'}}>
 								<h2 className="major">Contact</h2>
-								<form method="post" action="#">
+								<form method="post" onSubmit = {onSubmit}>
 									<div className="fields">
 										<div className="field half">
 											<label htmlFor="name">Name</label>
-											<input type="text" name="name" id="name"/>
+											<input type="text" name="name" id="name" value={formData.name}
+								onChange={onChange} />
 										</div>
 										<div className="field half">
 											<label htmlFor="email">Email</label>
-											<input type="text" name="email" id="email"/>
+											<input type="text" name="email" id="email" value={formData.email}
+								onChange={onChange}/>
 										</div>
 										<div className="field">
 											<label htmlFor="message">Message</label>
-											<textarea name="message" id="message" rows="4"></textarea>
+											<textarea name="message" id="message" rows="4" value={formData.message}
+								onChange={onChange}></textarea>
 										</div>
 									</div>
 									<ul className="actions">
-										<li><input type="submit" value="Send Message" className="primary"/></li>
+										<li><input type="submit" value={` ${loading ? 'Sending....' : 'Send Message'  }`} className="primary"/></li>
 										<li><input type="reset" value="Reset"/></li>
 									</ul>
 								</form>

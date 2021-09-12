@@ -3,11 +3,14 @@ import 'font-awesome/css/font-awesome.min.css';
 import ReactDOM from 'react-dom';
 import App from './App';
 import "./index.css";
+import { ToastProvider } from "react-toast-notifications";
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ToastProvider placement="top-left">
+				<App />
+			</ToastProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
