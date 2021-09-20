@@ -161,28 +161,6 @@ return(
             </li>
             <li>
               <a
-                href="https://facebook.com/olubisiidris"
-                className="icon fa-facebook"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-              >
-                {' '}
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://www.instagram.com/olanetsoft"
-                className="icon fa-instagram"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-              >
-                {' '}
-              </a>
-            </li>
-            <li>
-              <a
                 href="https://www.linkedin.com/in/olubisi-idris-ayinde-05727b17a/"
                 className="icon fa-linkedin"
                 target="_blank"
