@@ -107,17 +107,17 @@ return(
 										<div className="field half">
 											<label htmlFor="name">Name</label>
 											<input type="text" name="name" id="name" value={formData.name}
-								onChange={onChange} />
+								onChange={onChange} required />
 										</div>
 										<div className="field half">
 											<label htmlFor="email">Email</label>
 											<input type="text" name="email" id="email" value={formData.email}
-								onChange={onChange}/>
+								onChange={onChange} required/>
 										</div>
 										<div className="field">
 											<label htmlFor="message">Message</label>
 											<textarea name="message" id="message" rows="4" value={formData.message}
-								onChange={onChange}></textarea>
+								onChange={onChange} required></textarea>
 										</div>
 									</div>
 									<ul className="actions">
