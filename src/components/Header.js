@@ -1,9 +1,9 @@
 import React from 'react'
 
 
-const Header = (props) => {
+const Header = ({timeout,onOpenArticle}) => {
     return (
-        <header className="header" style = {props.timeout ? {display:'none'} : {}}>
+        <header className="header" style = {timeout ? {display:'none'} : {}}>
         <div className="logo">
         <span className="icon fa-laptop"></span>
         </div>
@@ -15,10 +15,10 @@ const Header = (props) => {
         </div>
         <nav className="use-middle">
 							<ul>
-								<li onClick ={ () => props.onOpenArticle('intro')}><a href="#intro">About</a></li>
-								<li onClick ={ () => props.onOpenArticle('work')}><a href="#work">Portfolio</a></li>
-								<li onClick ={ () => props.onOpenArticle('about')}className = "is-middle"><a href="#about">Blog</a></li>
-								<li onClick ={ () => props.onOpenArticle('contact')}><a href="#contact">Contact</a></li>
+								<li onClick ={ () => onOpenArticle('intro')}><a href="#intro">About</a></li>
+								<li onClick ={ () => onOpenArticle('work')}><a href="#work">Portfolio</a></li>
+								<li onClick ={ () => onOpenArticle('about')}className = "is-middle"><a href="#about">Blog</a></li>
+								<li onClick ={ () => onOpenArticle('contact')}><a href="#contact">Contact</a></li>
 							</ul>
 						</nav>
       </header>
