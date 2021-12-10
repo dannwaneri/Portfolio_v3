@@ -2,10 +2,10 @@ import React from 'react'
 
 
 
-const Footer = (props) => {
+const Footer = ({timeout}) => {
 return(
-    <footer id="footer" style = {props.timeout ?{display:'none'} : {}}>
-						<p className="copyright">© Untitled. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
+    <footer id="footer" style = {timeout ?{display:'none'} : {}}>
+						<p className="copyright">© Nwaneri Penuel</p>
 					</footer>
 )
 }
